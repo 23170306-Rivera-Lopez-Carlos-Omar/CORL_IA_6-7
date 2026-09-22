@@ -12,56 +12,53 @@ import java.util.Comparator;
 public class PuzzleTree {
 
     private String endState;
+
     private NodoPuzzle root;
 
-    // Estadisticas
-    private long nodosGenerados;
-    private long nodosVisitados;
+
     private int profundidadSolucion;
 
-    public PuzzleTree(String initialState, String endState) {
+    public PuzzleTree(
+            String initialState,
+            String endState) {
 
         this.endState = endState;
-        root = new NodoPuzzle(initialState, null);
 
-        reiniciarEstadisticas();
-    }
+        root =
+                new NodoPuzzle(
+                        initialState,
+                        null
+                );
 
-    // =====================================================
-    // REINICIAR ESTADISTICAS
-    // =====================================================
-
-    private void reiniciarEstadisticas() {
-
-        nodosGenerados = 1;
-        nodosVisitados = 0;
         profundidadSolucion = -1;
     }
 
-    // =====================================================
     // 1. PRIMERO EN ANCHURA
-    // =====================================================
 
     public void breadthFirstSearch() {
 
-        reiniciarEstadisticas();
+        profundidadSolucion = -1;
 
-        Set<String> visited = new HashSet<>();
+        Set<String> visited =
+                new HashSet<>();
 
         Queue<NodoPuzzle> cola =
                 new LinkedList<>();
 
         cola.add(root);
 
-        visited.add(root.getState());
+        visited.add(
+                root.getState()
+        );
 
         while (!cola.isEmpty()) {
 
-            NodoPuzzle current = cola.poll();
+            NodoPuzzle current =
+                    cola.poll();
 
-            nodosVisitados++;
-
-            if (current.getState().equals(endState)) {
+          
+            if (current.getState().equals(
+                    endState)) {
 
                 profundidadSolucion =
                         current.getDepth();
@@ -78,16 +75,18 @@ public class PuzzleTree {
             List<NodoPuzzle> children =
                     current.generateChildren();
 
-            for (NodoPuzzle child : children) {
-
-                nodosGenerados++;
+            for (NodoPuzzle child :
+                    children) {
 
                 String childState =
                         child.getState();
 
-                if (!visited.contains(childState)) {
+                if (!visited.contains(
+                        childState)) {
 
-                    visited.add(childState);
+                    visited.add(
+                            childState
+                    );
 
                     cola.add(child);
                 }
@@ -99,17 +98,16 @@ public class PuzzleTree {
         );
     }
 
-    // =====================================================
     // 2. COSTO UNIFORME
-    // =====================================================
 
     public void uniformCostSearch() {
 
-        reiniciarEstadisticas();
+        profundidadSolucion = -1;
 
         Set<String> visited =
                 new HashSet<>();
 
+    
         PriorityQueue<NodoPuzzle> cola =
                 new PriorityQueue<>(
                         new Comparator<NodoPuzzle>() {
@@ -140,11 +138,12 @@ public class PuzzleTree {
                 continue;
             }
 
-            visited.add(current.getState());
+            visited.add(
+                    current.getState()
+            );
 
-            nodosVisitados++;
-
-            if (current.getState().equals(endState)) {
+            if (current.getState().equals(
+                    endState)) {
 
                 profundidadSolucion =
                         current.getDepth();
@@ -161,9 +160,8 @@ public class PuzzleTree {
             List<NodoPuzzle> children =
                     current.generateChildren();
 
-            for (NodoPuzzle child : children) {
-
-                nodosGenerados++;
+            for (NodoPuzzle child :
+                    children) {
 
                 if (!visited.contains(
                         child.getState())) {
@@ -178,13 +176,11 @@ public class PuzzleTree {
         );
     }
 
-    // =====================================================
     // 3. PRIMERO EN PROFUNDIDAD
-    // =====================================================
 
     public void depthFirstSearch() {
 
-        reiniciarEstadisticas();
+        profundidadSolucion = -1;
 
         Set<String> visited =
                 new HashSet<>();
@@ -194,16 +190,17 @@ public class PuzzleTree {
 
         pila.push(root);
 
-        visited.add(root.getState());
+        visited.add(
+                root.getState()
+        );
 
         while (!pila.isEmpty()) {
 
             NodoPuzzle current =
                     pila.pop();
 
-            nodosVisitados++;
-
-            if (current.getState().equals(endState)) {
+            if (current.getState().equals(
+                    endState)) {
 
                 profundidadSolucion =
                         current.getDepth();
@@ -220,20 +217,14 @@ public class PuzzleTree {
             List<NodoPuzzle> children =
                     current.generateChildren();
 
-            /*
-             * Se agregan en orden inverso para
-             * conservar un recorrido similar
-             * al orden natural de los hijos.
-             */
-
-            for (int i = children.size() - 1;
+          
+            for (int i =
+                    children.size() - 1;
                  i >= 0;
                  i--) {
 
                 NodoPuzzle child =
                         children.get(i);
-
-                nodosGenerados++;
 
                 if (!visited.contains(
                         child.getState())) {
@@ -252,13 +243,12 @@ public class PuzzleTree {
         );
     }
 
-    // =====================================================
     // 4. PROFUNDIDAD LIMITADA
-    // =====================================================
 
-    public void depthLimitedSearch(int limit) {
+    public void depthLimitedSearch(
+            int limit) {
 
-        reiniciarEstadisticas();
+        profundidadSolucion = -1;
 
         if (limit < 0) {
 
@@ -304,26 +294,27 @@ public class PuzzleTree {
             int limit,
             Set<String> visited) {
 
-        nodosVisitados++;
-
-        if (current.getState().equals(endState)) {
+        if (current.getState().equals(
+                endState)) {
 
             return current;
         }
 
+     
         if (current.getDepth() >= limit) {
 
             return null;
         }
 
-        visited.add(current.getState());
+        visited.add(
+                current.getState()
+        );
 
         List<NodoPuzzle> children =
                 current.generateChildren();
 
-        for (NodoPuzzle child : children) {
-
-            nodosGenerados++;
+        for (NodoPuzzle child :
+                children) {
 
             if (!visited.contains(
                     child.getState())) {
@@ -342,18 +333,19 @@ public class PuzzleTree {
             }
         }
 
-        visited.remove(current.getState());
+       
+        visited.remove(
+                current.getState()
+        );
 
         return null;
     }
 
-    // =====================================================
     // 5. PROFUNDIDAD ITERATIVA
-    // =====================================================
 
     public void iterativeDeepeningSearch() {
 
-        reiniciarEstadisticas();
+        profundidadSolucion = -1;
 
         int limit = 0;
 
@@ -390,16 +382,6 @@ public class PuzzleTree {
 
             limit++;
 
-            /*
-             * El 8-Puzzle tiene como maximo
-             * 31 movimientos en una solucion
-             * optima desde un estado alcanzable.
-             *
-             * Este limite evita que el programa
-             * siga indefinidamente en caso de
-             * un problema.
-             */
-
             if (limit > 40) {
 
                 System.out.println(
@@ -411,17 +393,18 @@ public class PuzzleTree {
         }
     }
 
-    // =====================================================
-    // IMPRIMIR CAMINO
-    // =====================================================
+    // MOSTRAR CAMINO
 
-    private void printPath(NodoPuzzle nodo) {
+    private void printPath(
+            NodoPuzzle nodo) {
 
         Stack<String> pathStack =
                 new Stack<>();
 
-        NodoPuzzle current = nodo;
+        NodoPuzzle current =
+                nodo;
 
+  
         while (current != null) {
 
             pathStack.push(
@@ -436,13 +419,6 @@ public class PuzzleTree {
         System.out.println(
                 "CAMINO DE SOLUCION:"
         );
-
-        System.out.println(
-                "Cantidad de movimientos: "
-                + nodo.getDepth()
-        );
-
-        System.out.println();
 
         int paso = 0;
 
@@ -459,21 +435,14 @@ public class PuzzleTree {
 
             paso++;
         }
+
+        System.out.println(
+                "Cantidad de movimientos/pasos: "
+                + nodo.getDepth()
+        );
     }
 
-    // =====================================================
-    // GETTERS DE ESTADISTICAS
-    // =====================================================
-
-    public long getNodosGenerados() {
-
-        return nodosGenerados;
-    }
-
-    public long getNodosVisitados() {
-
-        return nodosVisitados;
-    }
+    // GETTER
 
     public int getProfundidadSolucion() {
 
