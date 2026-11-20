@@ -9,7 +9,7 @@ from PIL import Image
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CARPETA_DATASET = os.path.join(BASE_DIR, "dataset")
 TAMANO_ROSTRO = (128, 128)
-MAX_FAMOSOS = 5  # requisito de la tarea: al menos 5 famosos
+MAX_FAMOSOS = 5 
 
 URL_PARQUET = (
     "hf://datasets/nickmuchi/corise-celeb-identities/"
